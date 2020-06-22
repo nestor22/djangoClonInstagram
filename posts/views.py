@@ -44,4 +44,4 @@ def list_posts(request):
     contexto={
         'posts':posts
     }
-    return render(request,'feed.html', { 'posts':posts})
+    return render(request,'posts/feed.html', { 'posts':posts})
