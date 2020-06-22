@@ -11,7 +11,7 @@ Class-based views
     2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
 Including another URLconf
     1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+    2. Ad   d a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
 from django.conf import settings
@@ -21,14 +21,16 @@ from django.urls import path
 """ nuestros import"""
 from platzigram import views as local_views
 from posts import views as posts_views
+from users import views as user_views
 
 
 
 
 urlpatterns = [
-    path('hello-word/', local_views.hello_world),
-    path('admin/', admin.site.urls),
-    path('sorted/', local_views.sorted_ints),
-    path('hi/<str:name>/<int:edad>.', local_views.say_hi),
-    path('posts/',posts_views.list_posts ),
-] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
+    path('hello-word/', local_views.hello_world, name = 'hello_world'),
+    path('admin/', admin.site.urls, ),
+    path('sorted/', local_views.sorted_ints, name='sort'),
+    path('hi/<str:name>/<int:edad>.', local_views.say_hi, name= 'hi'),
+    path('posts/',posts_views.list_posts, name='posts'),
+    path('users/login', user_views.login_view, name='login'),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) 
