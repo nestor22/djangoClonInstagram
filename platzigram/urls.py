@@ -32,5 +32,8 @@ urlpatterns = [
     path('sorted/', local_views.sorted_ints, name='sort'),
     path('hi/<str:name>/<int:edad>.', local_views.say_hi, name= 'hi'),
     path('posts/',posts_views.list_posts, name='posts'),
-    path('users/login', user_views.login_view, name='login'),
+    path('users/login/', user_views.login_view, name='login'),
+    path('users/logout/', user_views.logout_view, name='logout'),
+    path('users/singup/', user_views.signup, name='signup'),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) 

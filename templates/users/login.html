@@ -6,13 +6,21 @@
 {% block container %}
 
     {% if error %}
-        <p sytile="color: red;">{{ error }}</p>
+    <p class="alert alert-danger">{{ error }}</p>
     {% endif %}
     <form method="POST" action="{% url "login" %}">
         {% csrf_token %}
-        <input type="text" placeholder="Username" name="username" />
-        <input type="password" placeholder="*******" name="password" />
 
-        <button type="submit"> Sign In</button>
+        <div class = "form-group">
+            <input class =  "from-control" type = "text" placeholder= "username" name="username">
+        </div>
+
+        <div class = "form-group">
+            <input class =  "from-control" type="password" placeholder="*******" name="password" >
+        </div>
+        
+
+        buton
+        <button class = "btn btn-primary btn-block mt5" type="submit"> Sign In</button>
     </form>
 {% endblock  %}
