@@ -13,7 +13,7 @@ class ProfileCompletitionMiddleware:
     
     def __call__(self, request):
         """code to be execute for eac request vefore the viw is called"""
-        if not request.user.is_anonymus:
+        if not request.user.is_anonymous:
             profile = request.user.profile
             if not profile.picture or not profile.biograpy :
                 if request.path not in [reverse('update_profile'), reverse('logout')]:
