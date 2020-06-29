@@ -9,9 +9,33 @@ from django.db.utils import IntegrityError
 from django.contrib.auth.models import User
 from users.models import Profile
 
+# Forms
+from users.forms import ProfileForm
+
+
+
 def update_profile(request):
     """updadate a user's profile view"""
-    return render(request, 'users/update_profile.html')
+
+    profile = request.user.profile
+
+    if request.method =='POST':
+        form = ProfileForm(request.POST)
+        if form.is_valid(self):
+            print(form.cleaned_data)
+        else:
+            form = ProfileForm()
+
+    
+    return render(
+        request = request,
+        template_name = 'users/update_profile.html',
+        context={
+            'profile': profile,
+            'user': request.user
+            'form': form
+        }
+    )
 
 def login_view(request):
     """ login view."""
