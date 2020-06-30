@@ -10,21 +10,28 @@ from django.contrib.auth.models import User
 from users.models import Profile
 
 # Forms
-from users.forms import ProfileForm
+from users.forms import Profileform
 
 
 
 def update_profile(request):
     """updadate a user's profile view"""
 
-    profile = request.user.profile
+    profile = request.user.profile 
 
     if request.method =='POST':
-        form = ProfileForm(request.POST)
-        if form.is_valid(self):
-            print(form.cleaned_data)
+        form = Profileform(request.POST, request.FILES)
+        if form.is_valid():
+            data = form.cleaned_data
+            profile.website = data['website']
+            profile.phone_number = data['phone_number']
+            profile.biograpy = data['biography']
+            profile.picture = data['picture']
+
+            return redirect('update_profile')
+ 
         else:
-            form = ProfileForm()
+            form = Profileform()
 
     
     return render(
@@ -32,7 +39,7 @@ def update_profile(request):
         template_name = 'users/update_profile.html',
         context={
             'profile': profile,
-            'user': request.user
+            'user': request.user,
             'form': form
         }
     )
