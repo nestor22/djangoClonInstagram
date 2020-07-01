@@ -13,7 +13,7 @@ from users.models import Profile
 from users.forms import Profileform
 
 
-
+@login_required
 def update_profile(request):
     """updadate a user's profile view"""
 

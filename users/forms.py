@@ -8,3 +8,6 @@ class Profileform(forms.Form):
     phone_number = forms.CharField(max_length= 20, required = False)
     picture = forms.ImageField()
     
+
+
+
