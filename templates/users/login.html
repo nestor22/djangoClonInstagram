@@ -22,4 +22,6 @@ az{% extends "users/base.html" %}
 
         <button class = "btn btn-primary btn-block mt5" type="submit"> Sign In</button>
     </form>
+
+    <p class="mt-4">Don't have an account yet? <a href = "{% url "signup" %}">Sign up here.</a></p>
 {% endblock  %}
