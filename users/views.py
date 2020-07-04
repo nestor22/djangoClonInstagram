@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
+from django.view.generic import DetailView
 # Exeptions
 from django.db.utils import IntegrityError
 #models
@@ -13,8 +14,19 @@ from users.models import Profile
 from users.forms import Profileform, SigupForm
 
 
+class UserDataView(DetailView):
+    """User detail  vioew"""
+    template_name = 'users/detail.html'
+    slug_file = 'username'
+    slug_url = 'username'
+    queryset = User.objects.all()
+
+    
+
+
+
 @login_required
-def update_profile(request):
+def update(request):
     """updadate a user's profile view"""
 
     profile = request.user.profile 
@@ -28,7 +40,7 @@ def update_profile(request):
             profile.biograpy = data['biography']
             profile.picture = data['picture']
 
-            return redirect('update_profile')
+            return redirect('users:update')
 
         else:
             form = Profileform()
@@ -36,7 +48,7 @@ def update_profile(request):
     
     return render(
         request = request,
-        template_name = 'users/update_profile.html',
+        template_name = 'users/update.html',
         context={
             'profile': profile,
             'user': request.user,
@@ -54,7 +66,7 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user:
             login(request, user)
-            return redirect('posts')
+            return redirect('posts:feed')
         else:
             return render(request, 'users/login.html', {'error':'Invalid Username or password'})
     return render(request, 'users/login.html')
@@ -67,7 +79,7 @@ def signup(request):
         form =  SigupForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('login')
+            return redirect('user:login')
     else:
         form = SigupForm()
 
@@ -85,7 +97,7 @@ def signup(request):
 @login_required
 def logout_view(request):
     logout(request)
-    return redirect('login')
+    return redirect('user:login')
 
 
 
