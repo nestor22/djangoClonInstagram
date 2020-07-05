@@ -2,25 +2,34 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
-from django.view.generic import DetailView
+from django.views.generic import DetailView
+from django.urls import reverse 
 # Exeptions
 from django.db.utils import IntegrityError
 #models
 from django.contrib.auth.models import User
 from users.models import Profile
+from post.models import Post
 
 # Forms
 from users.forms import Profileform, SigupForm
 
 
-class UserDataView(DetailView):
-    """User detail  vioew"""
+class UserDetailView(LoginRequireMixin, DetailView):
+    """User detail  view"""
     template_name = 'users/detail.html'
-    slug_file = 'username'
-    slug_url = 'username'
+    slug_filed = 'username'
+    slug_url_kwarg = 'username'
     queryset = User.objects.all()
-
+    context_object = 'user'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.get_object()
+        context['post'] = Post.objects.filter(user=user).order_by('-created')
+        return context
     
 
 
@@ -37,13 +46,14 @@ def update(request):
             data = form.cleaned_data
             profile.website = data['website']
             profile.phone_number = data['phone_number']
-            profile.biograpy = data['biography']
+            profile.biograpy = data['biograpy']
             profile.picture = data['picture']
+            profile.save()
+            url = reverse('users:detail', kwargs{'username':request.user.username})
+            return redirect(url)
 
-            return redirect('users:update')
-
-        else:
-            form = Profileform()
+    else:
+        form = Profileform()
 
     
     return render(

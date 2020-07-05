@@ -6,11 +6,6 @@ from users import views
 
 
 urlpatterns=[
-    path(
-        route='<str:username>/',
-        view=views.UserDetailView.as_View(),
-        name='detail'
-        ),
         
     path(
         route='login/', 
@@ -26,7 +21,12 @@ urlpatterns=[
         name='signup'),
     path(
         route='me/profile/', 
-        view=views.update_profile, 
+        view=views.update, 
         name='update'),
         
+    path(
+        route='<str:username>/',
+        view=views.UserDetailView.as_view(),
+        name='detail'
+        ),
 ]

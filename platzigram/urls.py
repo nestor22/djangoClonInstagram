@@ -7,9 +7,9 @@ from django.conf.urls.static import static
 from django.urls import path, include
 
 urlpatterns = [
-    path('admin/', admin.site.urls, ),
-    path('', include(('post.urls', 'post'), namespace='posts')),
-    path('users/', include(('users.url', 'users'), namespace='users')),
+    path('admin/', admin.site.urls),
+    path('', include(('posts.urls', 'posts'), namespace='posts')),
+    path('users/', include(('users.urls', 'users'), namespace='users')),
 
 
 

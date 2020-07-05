@@ -6,6 +6,9 @@
 #from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import ListView
+
 # froms 
 from posts.forms import PostForm
 # models
@@ -16,19 +19,23 @@ from posts.models import Post
 from datetime import datetime
 
 
-@login_required
-def list_posts(request):
-    """list existing posts. """
-    posts = Post.objects.all().order_by('-created')
-    return render(request,'posts/feed.html', { 'posts':posts})
+class PostFeedView(LoginRequiredMixin, ListView):
+    """Return all pubshiedl post """
+    template_name  = 'posts/reed.html'
+    model = Post
+    ordering = ('-created',)
+    paginate_by=2
+    context_object_name = 'posts'
+
+
 
 @login_required
 def create_post(request):
     if request.methon == 'POST':
-        from=PostForm(request.POST, request.FILES)
+        form=PostForm(request.POST, request.FILES)
         if form.is_valid:
             form.saver()
-            return  redirect('feed')
+            return  redirect('posts:feed')
     else:
         form = PostForm()
 
@@ -38,7 +45,7 @@ def create_post(request):
         template_name = 'posts/new.html',
         context={
             'form': form,
-            'user'; request.user,
+            'user': request.user,
             'profile': request.user.profile
         }
     )
