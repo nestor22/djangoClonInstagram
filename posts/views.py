@@ -19,6 +19,13 @@ from posts.models import Post
 from datetime import datetime
 
 
+class PostFeedView(LoginRequredMixin, DetailView):
+    """Return post Detail ."""
+    template_name= 'post/detail.html'
+    queryset=Post.objects.all()
+    context_object_name='posts'
+
+
 class PostFeedView(LoginRequiredMixin, ListView):
     """Return all pubshiedl post """
     template_name  = 'posts/reed.html'

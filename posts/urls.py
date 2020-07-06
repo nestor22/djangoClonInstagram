@@ -13,6 +13,12 @@ urlpatterns=[
         route='posts/new/', 
         view=views.create_post, 
         name='create_post'),
+    path(
+        route='<int:pk>/',
+        view=views.PostDetailView.as_view(),
+        name='detail'
+        )
+    
 ]
 
 
