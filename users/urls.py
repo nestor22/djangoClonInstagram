@@ -17,7 +17,7 @@ urlpatterns=[
         name='logout'),
     path(
         route='singup/', 
-        view=views.signup, 
+        view=views.SigunView.as_view(), 
         name='signup'),
     path(
         route='me/profile/', 

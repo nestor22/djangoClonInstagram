@@ -4,8 +4,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
-from django.views.generic import DetailView
-from django.urls import reverse 
+from django.views.generic import DetailView, FormView
+from django.urls import reverse, reverse_lazy 
 # Exeptions
 from django.db.utils import IntegrityError
 #models
@@ -31,6 +31,10 @@ class UserDetailView(LoginRequireMixin, DetailView):
         context['post'] = Post.objects.filter(user=user).order_by('-created')
         return context
     
+class SignupView(FromView):
+    template_name = 'users/signup.html'
+    from_class = SigunForm
+    succes_url = reverse_lazy('users:login')
 
 
 
@@ -82,24 +86,6 @@ def login_view(request):
     return render(request, 'users/login.html')
 
 
-
-def signup(request):
-    """sign up view"""
-    if request.method == 'POST':
-        form =  SigupForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('user:login')
-    else:
-        form = SigupForm()
-
-    return render(
-        request = request,
-        template_name = 'users/signup.html',
-        context = {
-            'form':form
-        }
-    )
 
 
 

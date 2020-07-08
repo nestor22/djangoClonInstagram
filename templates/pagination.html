@@ -2,19 +2,19 @@
     <nav>
         <ul class="pagination justify-content-end">
             <li class="page-item">
-                <a class="page-link" href="">
+                <a class="page-link" href="?page={{ page_obj.previus_page_number }}">
                Previous 
                 </a>
             </li> 
             <li class="page-item">
            
-                <a class="page-link" href="">
+                <a class="page-link" href="#">
                     {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
                 </a>
             </li> 
             <li class="page-item">
 
-                <a class="page-link" href="">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">
                 Next
                 </a>
             </li> 

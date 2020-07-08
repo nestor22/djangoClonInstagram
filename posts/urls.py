@@ -11,10 +11,10 @@ urlpatterns=[
         name='feed'),
     path(
         route='posts/new/', 
-        view=views.create_post, 
+        view=views.CreatePostView.as_view(), 
         name='create_post'),
     path(
-        route='<int:pk>/',
+        route='posts/<int:pk>/',
         view=views.PostDetailView.as_view(),
         name='detail'
         )
