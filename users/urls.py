@@ -21,7 +21,7 @@ urlpatterns=[
         name='signup'),
     path(
         route='me/profile/', 
-        view=views.update, 
+        view=views.UpdateProfileView.as_view(), 
         name='update'),
         
     path(

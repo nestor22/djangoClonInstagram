@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
-from django.views.generic import DetailView, FormView
+from django.views.generic import DetailView, FormView, UpdateView
 from django.urls import reverse, reverse_lazy 
 # Exeptions
 from django.db.utils import IntegrityError
@@ -43,37 +43,21 @@ class SignupView(FromView):
 
 
 
-@login_required
-def update(request):
-    """updadate a user's profile view"""
+class UpdateProfileView(LoginRequiredMixin, UpdateView):
+    template_name = 'users/update_profile.html'
+    model = Profile 
+    fields = ['website', 'biograpy', 'phone_number', 'picture']
 
-    profile = request.user.profile 
+    def get_ogject(self):
+        return self.request.user.prfile
 
-    if request.method =='POST':
-        form = Profileform(request.POST, request.FILES)
-        if form.is_valid():
-            data = form.cleaned_data
-            profile.website = data['website']
-            profile.phone_number = data['phone_number']
-            profile.biograpy = data['biograpy']
-            profile.picture = data['picture']
-            profile.save()
-            url = reverse('users:detail', kwargs{'username':request.user.username})
-            return redirect(url)
+    def get_success_url(self):
+        """ return to users profile """
+        username = self.object.user.username
+        return reverse('users:detail', kwargs = {'username': username})
+        
 
-    else:
-        form = Profileform()
 
-    
-    return render(
-        request = request,
-        template_name = 'users/update.html',
-        context={
-            'profile': profile,
-            'user': request.user,
-            'form': form
-        }
-    )
 
 def login_view(request):
     """ login view."""
