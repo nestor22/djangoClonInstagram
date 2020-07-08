@@ -36,6 +36,11 @@ class SignupView(FromView):
     from_class = SigunForm
     succes_url = reverse_lazy('users:login')
 
+    def form_falid(self, form):
+        """ save from data."""
+        form.save()
+        return super().form_valid(form)
+
 
 
 @login_required
